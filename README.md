@@ -1,24 +1,18 @@
 # README
+/*
+t.string :name
+t.references :user
+*/
+Recipe
+    belongs_to :user
+    has_many :ingredients
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+/*
+t.string :name
+t.text :content
+t.references :user
+t.references :recipe
+*/
+Ingredient
+    belongs_to :user
+    belongs_to :recipe
