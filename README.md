@@ -7,6 +7,7 @@ This application allows a user to keep track of recipes and their ingredients. T
 and can add notes on each ingredient to remember anything specific about the ingredients for the recipe.
 
 --Installation--
+Download the frontend portion aswell https://github.com/Pabgon0/JS_Rails_Project_2021-frontend.
 Fork and clone this repository.
 Run 'rails db:migrate' to migrate the database and 'rails s' to run the server in the backend folder.
 
