@@ -1,9 +1,10 @@
 class IngredientsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_ingredient, only: [:show, :update, :destroy]
 
   # GET /ingredients
   def index
-    @ingredients = Ingredient.all
+    @ingredients = current_user.ingredients.all
 
     render json: @ingredients
   end
@@ -15,33 +16,34 @@ class IngredientsController < ApplicationController
 
   # POST /ingredients
   def create
-    @ingredient = Ingredient.new(ingredient_params)
+    @ingredient = current_user.ingredients.build(ingredient_params)
 
     if @ingredient.save
-      render json: @ingredient, status: :created, location: @ingredient
+      render json: IngredientSerializer.new(@ingredient).serializable_hash[:data][:attributes], status: :created, location: @ingredient
     else
-      render json: @ingredient.errors, status: :unprocessable_entity
+      render json: @ingredient.errors.full_messages.to_sentence, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /ingredients/1
   def update
     if @ingredient.update(ingredient_params)
-      render json: @ingredient
+      render json: IngredientSerializer.new(@ingredient).serializable_hash[:data][:attributes]
     else
-      render json: @ingredient.errors, status: :unprocessable_entity
+      render json: @ingredient.errors.full_messages.to_sentence, status: :unprocessable_entity
     end
   end
 
   # DELETE /ingredients/1
   def destroy
     @ingredient.destroy
+    render json: {id: @ingredient.id}, status: :ok
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ingredient
-      @ingredient = Ingredient.find(params[:id])
+      @ingredient = current_user.ingredients.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
